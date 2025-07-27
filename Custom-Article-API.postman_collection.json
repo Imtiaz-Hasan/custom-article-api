@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "custom-article-api-collection",
+		"name": "Custom Article API",
+		"description": "A comprehensive collection for testing the Custom Article API WordPress plugin endpoints. Includes JWT authentication, article CRUD operations, and media upload functionality.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get JWT Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{wp_username}}",
+									"description": "Your WordPress username"
+								},
+								{
+									"key": "password",
+									"value": "{{wp_password}}",
+									"description": "Your WordPress password"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/jwt-auth/v1/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"jwt-auth",
+								"v1",
+								"token"
+							]
+						},
+						"description": "Authenticate with WordPress and get JWT token for API access"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "admin"
+										},
+										{
+											"key": "password",
+											"value": "password"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/wp-json/jwt-auth/v1/token",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"wp-json",
+										"jwt-auth",
+										"v1",
+										"token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vd3AtY3VzdG9tLWFwaS10ZXN0LnRlc3QiLCJpYXQiOjE3NTM1OTQzMDQsIm5iZiI6MTc1MzU5NDMwNCwiZXhwIjoxNzU0MTk5MTA0LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIxIn19fQ.M38FcdvLlDutOt5w9WSTgFD5ofEufAx6COSw267-4xI\",\n    \"user_email\": \"imtiazgamer1@gmail.com\",\n    \"user_nicename\": \"custom-article-api-test\",\n    \"user_display_name\": \"custom-article-api-test\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Refresh JWT Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "JWT",
+									"value": "{{jwt_token}}",
+									"description": "Current JWT token to refresh"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/jwt-auth/v1/token/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"jwt-auth",
+								"v1",
+								"token",
+								"refresh"
+							]
+						},
+						"description": "Refresh an existing JWT token"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "JWT",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/wp-json/jwt-auth/v1/token/refresh",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"wp-json",
+										"jwt-auth",
+										"v1",
+										"token",
+										"refresh"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"statusCode\": 200,\n    \"code\": \"jwt_auth_valid_token\",\n    \"message\": \"Token is valid\",\n    \"data\": {\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n        \"id\": 1,\n        \"email\": \"admin@example.com\",\n        \"nicename\": \"admin\",\n        \"displayName\": \"Admin User\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Validate JWT Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "JWT",
+									"value": "{{jwt_token}}",
+									"description": "JWT token to validate"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/jwt-auth/v1/token/validate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"jwt-auth",
+								"v1",
+								"token",
+								"validate"
+							]
+						},
+						"description": "Validate an existing JWT token"
+					}
+				}
+			],
+			"description": "Authentication endpoints for JWT token management"
+		},
+		{
+			"name": "Articles",
+			"item": [
+				{
+					"name": "Create Article",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Test Article Title\",\n    \"content\": \"<p>This is the article content with HTML formatting.</p><p>You can include multiple paragraphs and formatting.</p>\",\n    \"status\": \"publish\",\n    \"slug\": \"test-article-slug\",\n    \"categories\": [1, 2],\n    \"featured_media\": 123,\n    \"meta_title\": \"SEO Meta Title\",\n    \"meta_description\": \"SEO meta description for search engines\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/custom-api/v1/article",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"custom-api",
+								"v1",
+								"article"
+							]
+						},
+						"description": "Create a new article with all optional fields"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test Article Title\",\n    \"content\": \"<p>This is the article content.</p>\",\n    \"status\": \"publish\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost/wp-json/custom-api/v1/article",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"wp-json",
+										"custom-api",
+										"v1",
+										"article"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 456\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Article (Minimal)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Minimal Article\",\n    \"content\": \"<p>Just title and content.</p>\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/custom-api/v1/article",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"custom-api",
+								"v1",
+								"article"
+							]
+						},
+						"description": "Create an article with only required fields (title and content)"
+					}
+				},
+				{
+					"name": "Get Article",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wp-json/custom-api/v1/article/{{article_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"custom-api",
+								"v1",
+								"article",
+								"{{article_id}}"
+							]
+						},
+						"description": "Retrieve a specific article by ID"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+									}
+								],
+								"url": {
+									"raw": "http://localhost/wp-json/custom-api/v1/article/456",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"wp-json",
+										"custom-api",
+										"v1",
+										"article",
+										"456"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 456,\n    \"title\": \"Test Article Title\",\n    \"content\": \"<p>This is the article content with HTML formatting.</p><p>You can include multiple paragraphs and formatting.</p>\",\n    \"status\": \"publish\",\n    \"slug\": \"test-article-slug\",\n    \"categories\": [1, 2],\n    \"featured_media\": 123,\n    \"meta_title\": \"SEO Meta Title\",\n    \"meta_description\": \"SEO meta description for search engines\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Article",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Article Title\",\n    \"content\": \"<p>Updated content with new information.</p>\",\n    \"status\": \"draft\",\n    \"meta_title\": \"Updated SEO Title\",\n    \"meta_description\": \"Updated meta description\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/custom-api/v1/article/{{article_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"custom-api",
+								"v1",
+								"article",
+								"{{article_id}}"
+							]
+						},
+						"description": "Update an existing article (partial update supported)"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Updated Article Title\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost/wp-json/custom-api/v1/article/456",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"wp-json",
+										"custom-api",
+										"v1",
+										"article",
+										"456"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 456\n}"
+						}
+					]
+				}
+			],
+			"description": "Article CRUD operations"
+		},
+		{
+			"name": "Media",
+			"item": [
+				{
+					"name": "Upload Media",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"description": "Upload image (jpg, png) or PDF file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/wp-json/custom-api/v1/upload-media",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wp-json",
+								"custom-api",
+								"v1",
+								"upload-media"
+							]
+						},
+						"description": "Upload media files (images or PDFs) to WordPress media library"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost/wp-json/custom-api/v1/upload-media",
+									"host": [
+										"localhost"
+									],
+									"path": [
+										"wp-json",
+										"custom-api",
+										"v1",
+										"upload-media"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 123,\n    \"url\": \"http://localhost/wp-content/uploads/2024/01/example-image.jpg\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Media upload functionality"
+		}
+	],
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-extract JWT token from authentication response",
+					"if (pm.response && pm.response.json() && pm.response.json().token) {",
+					"    pm.environment.set('jwt_token', pm.response.json().token);",
+					"    console.log('JWT token automatically set:', pm.response.json().token.substring(0, 20) + '...');",
+					"}",
+					"",
+					"// Auto-extract article ID from create response",
+					"if (pm.response && pm.response.json() && pm.response.json().id) {",
+					"    pm.environment.set('article_id', pm.response.json().id);",
+					"    console.log('Article ID automatically set:', pm.response.json().id);",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost",
+			"description": "Your WordPress site URL (change for your environment)"
+		},
+		{
+			"key": "wp_username",
+			"value": "admin",
+			"description": "Your WordPress username"
+		},
+		{
+			"key": "wp_password",
+			"value": "password",
+			"description": "Your WordPress password"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"description": "JWT token (auto-populated after authentication)"
+		},
+		{
+			"key": "article_id",
+			"value": "",
+			"description": "Article ID (auto-populated after creating an article)"
+		}
+	]
+} 
