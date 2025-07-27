@@ -95,7 +95,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vd3AtY3VzdG9tLWFwaS10ZXN0LnRlc3QiLCJpYXQiOjE3NTM1OTQzMDQsIm5iZiI6MTc1MzU5NDMwNCwiZXhwIjoxNzU0MTk5MTA0LCJkYXRhIjp7InVzZXIiOnsiaWQiOiIxIn19fQ.M38FcdvLlDutOt5w9WSTgFD5ofEufAx6COSw267-4xI\",\n    \"user_email\": \"imtiazgamer1@gmail.com\",\n    \"user_nicename\": \"custom-article-api-test\",\n    \"user_display_name\": \"custom-article-api-test\"\n}"
+							"body": "{\n    \"token\": \"YOUR_JWT_TOKEN_HERE\",\n    \"user_email\": \"your-email@example.com\",\n    \"user_nicename\": \"custom-article-api-test\",\n    \"user_display_name\": \"custom-article-api-test\"\n}"
 						}
 					]
 				},
